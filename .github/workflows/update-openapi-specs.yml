@@ -1,5 +1,5 @@
 name: Update OpenAPI Specs
-run-name: Update OpenAPI Specs - ${{ github.event.client_payload.ref }}
+run-name: Update OpenAPI Specs - ${{ github.event.client_payload.sha }}
 
 on:
   repository_dispatch:
@@ -20,6 +20,16 @@ jobs:
         run: |
           echo "$SCHEMA" > openapi.json
       
+      
+      - name: Install Dependencies
+        run: |
+          npm install -g openapi-cli
+
+      # Verify that only valid OpenAPI schemas get committed
+      - name: Lint OpenAPI Schema
+        run: |
+          npx openapi-cli lint openapi.json
+      
       - name: Commit and Push Changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -27,5 +37,5 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add openapi.json
-          git commit -m "Update OpenAPI schema"
+          git commit -m "Update OpenAPI schema for ${{ github.event.client_payload.sha }}"
           git push
