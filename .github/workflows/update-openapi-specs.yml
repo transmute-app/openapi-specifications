@@ -36,5 +36,8 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add openapi.json
-          git commit -m "docs: update OpenAPI schema for ${{ github.event.client_payload.sha }}"
-          git push
+          commit_message="docs: update OpenAPI schema for ${{ github.event.client_payload.sha }}"
+          if ! git diff --cached --exit-code; then
+            git commit -m "$commit_message"
+            git push
+          fi
