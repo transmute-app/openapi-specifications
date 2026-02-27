@@ -20,15 +20,14 @@ jobs:
         run: |
           echo "$SCHEMA" > openapi.json
       
-      
       - name: Install Dependencies
         run: |
-          npm install -g openapi-cli
+          npm install -g @redocly/cli
 
       # Verify that only valid OpenAPI schemas get committed
       - name: Lint OpenAPI Schema
         run: |
-          npx openapi-cli lint openapi.json
+          redocly lint openapi.json
       
       - name: Commit and Push Changes
         env:
