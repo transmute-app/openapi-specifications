@@ -23,6 +23,94 @@
         "title": "AppInfo",
         "type": "object"
       },
+      "AppSettingsResponse": {
+        "properties": {
+          "auto_download": {
+            "description": "Auto-download converted files on completion",
+            "example": false,
+            "title": "Auto Download",
+            "type": "boolean"
+          },
+          "keep_originals": {
+            "description": "Retain uploaded source files after conversion",
+            "example": true,
+            "title": "Keep Originals",
+            "type": "boolean"
+          },
+          "theme": {
+            "description": "Active UI theme",
+            "enum": [
+              "rubedo",
+              "citrinitas",
+              "viriditas",
+              "nigredo",
+              "albedo"
+            ],
+            "example": "rubedo",
+            "title": "Theme",
+            "type": "string"
+          }
+        },
+        "required": [
+          "theme",
+          "auto_download",
+          "keep_originals"
+        ],
+        "title": "AppSettingsResponse",
+        "type": "object"
+      },
+      "AppSettingsUpdate": {
+        "properties": {
+          "auto_download": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Auto-download on completion",
+            "example": false,
+            "title": "Auto Download"
+          },
+          "keep_originals": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Keep original files after conversion",
+            "example": true,
+            "title": "Keep Originals"
+          },
+          "theme": {
+            "anyOf": [
+              {
+                "enum": [
+                  "rubedo",
+                  "citrinitas",
+                  "viriditas",
+                  "nigredo",
+                  "albedo"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "UI theme to apply",
+            "example": "rubedo",
+            "title": "Theme"
+          }
+        },
+        "title": "AppSettingsUpdate",
+        "type": "object"
+      },
       "BatchDownloadRequest": {
         "properties": {
           "file_ids": {
@@ -889,6 +977,71 @@
         "summary": "List Jobs",
         "tags": [
           "jobs"
+        ]
+      }
+    },
+    "/api/settings": {
+      "get": {
+        "description": "Return the current application settings.",
+        "operationId": "get_app_settings_api_settings_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppSettingsResponse"
+                }
+              }
+            },
+            "description": "Current app settings"
+          }
+        },
+        "summary": "Get app settings",
+        "tags": [
+          "settings"
+        ]
+      },
+      "patch": {
+        "description": "Partially update application settings. Only provided fields are changed.",
+        "operationId": "update_app_settings_api_settings_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppSettingsUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppSettingsResponse"
+                }
+              }
+            },
+            "description": "Updated app settings"
+          },
+          "400": {
+            "description": "Invalid settings value"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update app settings",
+        "tags": [
+          "settings"
         ]
       }
     }
