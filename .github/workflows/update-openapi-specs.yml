@@ -7,10 +7,24 @@ on:
 jobs:
   update-openapi-specs:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Test
+      - name: Checkout Repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          persist-credentials: false
+      
+      - name: Write Schema to File
         env:
-          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          SCHEMA: ${{ toJSON(github.event.client_payload.schema) }}
         run: |
-          echo "This is a test step for the Update OpenAPI Specs workflow."
-          echo "Payload: $PAYLOAD"
+          echo "$SCHEMA" > openapi.json
+      
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add openapi.json
+          git commit -m "Update OpenAPI schema"
+          git push
