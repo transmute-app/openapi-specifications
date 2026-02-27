@@ -1,1 +1,896 @@
-{}
+{
+  "components": {
+    "schemas": {
+      "AppInfo": {
+        "properties": {
+          "name": {
+            "description": "Application name",
+            "example": "Transmute",
+            "title": "Name",
+            "type": "string"
+          },
+          "version": {
+            "description": "Application version",
+            "example": "v1.0.0",
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version"
+        ],
+        "title": "AppInfo",
+        "type": "object"
+      },
+      "BatchDownloadRequest": {
+        "properties": {
+          "file_ids": {
+            "description": "List of converted file IDs to download",
+            "example": [
+              "123e4567-e89b-12d3-a456-426614174000",
+              "987fcdeb-51a2-43f1-b789-123456789abc"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "File Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "file_ids"
+        ],
+        "title": "BatchDownloadRequest",
+        "type": "object"
+      },
+      "Body_upload_file_api_files__post": {
+        "properties": {
+          "file": {
+            "format": "binary",
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_file_api_files__post",
+        "type": "object"
+      },
+      "ConversionItem": {
+        "properties": {
+          "extension": {
+            "example": ".png",
+            "title": "Extension",
+            "type": "string"
+          },
+          "id": {
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "title": "Id",
+            "type": "string"
+          },
+          "media_type": {
+            "example": "png",
+            "title": "Media Type",
+            "type": "string"
+          },
+          "original_file": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FileMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Original file metadata"
+          },
+          "original_filename": {
+            "example": "example.jpg",
+            "title": "Original Filename",
+            "type": "string"
+          },
+          "sha256_checksum": {
+            "example": "abc123def456...",
+            "title": "Sha256 Checksum",
+            "type": "string"
+          },
+          "size_bytes": {
+            "example": 204800,
+            "title": "Size Bytes",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "original_filename",
+          "media_type",
+          "extension",
+          "size_bytes",
+          "sha256_checksum"
+        ],
+        "title": "ConversionItem",
+        "type": "object"
+      },
+      "ConversionListResponse": {
+        "properties": {
+          "conversions": {
+            "description": "List of completed conversions",
+            "items": {
+              "$ref": "#/components/schemas/ConversionItem"
+            },
+            "title": "Conversions",
+            "type": "array"
+          }
+        },
+        "required": [
+          "conversions"
+        ],
+        "title": "ConversionListResponse",
+        "type": "object"
+      },
+      "ConversionRequest": {
+        "properties": {
+          "id": {
+            "description": "ID of file to convert",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "title": "Id",
+            "type": "string"
+          },
+          "output_format": {
+            "description": "Target format for conversion",
+            "example": "png",
+            "title": "Output Format",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "output_format"
+        ],
+        "title": "ConversionRequest",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "detail": {
+            "description": "Error message",
+            "example": "No converter found for jpg to png",
+            "title": "Detail",
+            "type": "string"
+          }
+        },
+        "required": [
+          "detail"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "FileDeleteResponse": {
+        "properties": {
+          "message": {
+            "description": "Deletion status message",
+            "example": "File deleted successfully",
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "title": "FileDeleteResponse",
+        "type": "object"
+      },
+      "FileListResponse": {
+        "properties": {
+          "files": {
+            "description": "List of uploaded files",
+            "items": {
+              "$ref": "#/components/schemas/FileMetadata"
+            },
+            "title": "Files",
+            "type": "array"
+          }
+        },
+        "required": [
+          "files"
+        ],
+        "title": "FileListResponse",
+        "type": "object"
+      },
+      "FileMetadata": {
+        "properties": {
+          "extension": {
+            "example": ".jpg",
+            "title": "Extension",
+            "type": "string"
+          },
+          "id": {
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "title": "Id",
+            "type": "string"
+          },
+          "media_type": {
+            "example": "jpg",
+            "title": "Media Type",
+            "type": "string"
+          },
+          "original_filename": {
+            "example": "example.jpg",
+            "title": "Original Filename",
+            "type": "string"
+          },
+          "sha256_checksum": {
+            "example": "abc123def456...",
+            "title": "Sha256 Checksum",
+            "type": "string"
+          },
+          "size_bytes": {
+            "example": 204800,
+            "title": "Size Bytes",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "original_filename",
+          "media_type",
+          "extension",
+          "size_bytes",
+          "sha256_checksum"
+        ],
+        "title": "FileMetadata",
+        "type": "object"
+      },
+      "FileMetadataWithFormats": {
+        "properties": {
+          "compatible_formats": {
+            "description": "List of compatible output formats",
+            "example": [
+              "png",
+              "gif",
+              "webp"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "title": "Compatible Formats",
+            "type": "array"
+          },
+          "extension": {
+            "example": ".jpg",
+            "title": "Extension",
+            "type": "string"
+          },
+          "id": {
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "title": "Id",
+            "type": "string"
+          },
+          "media_type": {
+            "example": "jpg",
+            "title": "Media Type",
+            "type": "string"
+          },
+          "original_filename": {
+            "example": "example.jpg",
+            "title": "Original Filename",
+            "type": "string"
+          },
+          "sha256_checksum": {
+            "example": "abc123def456...",
+            "title": "Sha256 Checksum",
+            "type": "string"
+          },
+          "size_bytes": {
+            "example": 204800,
+            "title": "Size Bytes",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "original_filename",
+          "media_type",
+          "extension",
+          "size_bytes",
+          "sha256_checksum",
+          "compatible_formats"
+        ],
+        "title": "FileMetadataWithFormats",
+        "type": "object"
+      },
+      "FileUploadResponse": {
+        "properties": {
+          "message": {
+            "description": "Upload status message",
+            "example": "File uploaded successfully",
+            "title": "Message",
+            "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/FileMetadataWithFormats",
+            "description": "Uploaded file metadata with compatible formats"
+          }
+        },
+        "required": [
+          "message",
+          "metadata"
+        ],
+        "title": "FileUploadResponse",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthStatus": {
+        "properties": {
+          "status": {
+            "description": "Health status",
+            "example": "alive",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "HealthStatus",
+        "type": "object"
+      },
+      "ReadinessChecks": {
+        "properties": {
+          "database": {
+            "description": "Database check status",
+            "example": "ok",
+            "title": "Database",
+            "type": "string"
+          },
+          "storage": {
+            "description": "Storage check status",
+            "example": "ok",
+            "title": "Storage",
+            "type": "string"
+          }
+        },
+        "required": [
+          "database",
+          "storage"
+        ],
+        "title": "ReadinessChecks",
+        "type": "object"
+      },
+      "ReadinessResponse": {
+        "properties": {
+          "checks": {
+            "$ref": "#/components/schemas/ReadinessChecks",
+            "description": "Individual component checks"
+          },
+          "status": {
+            "description": "Overall readiness status",
+            "example": "ready",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "checks"
+        ],
+        "title": "ReadinessResponse",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "API to interact with Transmute without the need for a frontend",
+    "title": "Transmute API",
+    "version": "0.0.1"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/conversions/": {
+      "post": {
+        "description": "Create a new conversion for a previously uploaded file.",
+        "operationId": "create_conversion_api_conversions__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConversionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileMetadata"
+                }
+              }
+            },
+            "description": "Successful conversion - returns metadata of the converted file"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid input or conversion error (no converter found)"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "File not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create a new conversion",
+        "tags": [
+          "conversions"
+        ]
+      }
+    },
+    "/api/conversions/complete": {
+      "get": {
+        "description": "List all completed conversions with their converted and original file metadata.",
+        "operationId": "list_conversions_api_conversions_complete_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversionListResponse"
+                }
+              }
+            },
+            "description": "List of completed conversions with original and converted file metadata"
+          }
+        },
+        "summary": "List completed conversions",
+        "tags": [
+          "conversions"
+        ]
+      }
+    },
+    "/api/conversions/{conversion_id}": {
+      "delete": {
+        "description": "Delete a converted file and its relation to the original file",
+        "operationId": "delete_conversion_api_conversions__conversion_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "conversion_id",
+            "required": true,
+            "schema": {
+              "title": "Conversion Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDeleteResponse"
+                }
+              }
+            },
+            "description": "Conversion history deleted successfully"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conversion history not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete a converted file and its relation to the original file",
+        "tags": [
+          "conversions"
+        ]
+      }
+    },
+    "/api/files/": {
+      "get": {
+        "description": "List all uploaded files",
+        "operationId": "list_files_api_files__get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileListResponse"
+                }
+              }
+            },
+            "description": "List of all uploaded files"
+          }
+        },
+        "summary": "List all uploaded files",
+        "tags": [
+          "files"
+        ]
+      },
+      "post": {
+        "description": "Upload a file and save it to the server",
+        "operationId": "upload_file_api_files__post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_file_api_files__post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileUploadResponse"
+                }
+              }
+            },
+            "description": "File uploaded successfully"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Upload failed"
+          }
+        },
+        "summary": "Upload a file",
+        "tags": [
+          "files"
+        ]
+      }
+    },
+    "/api/files/batch": {
+      "post": {
+        "description": "Batch download converted files as a ZIP archive",
+        "operationId": "batch_download_files_api_files_batch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchDownloadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/zip": {}
+            },
+            "description": "ZIP file containing all converted files"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "One or more converted files not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Batch download converted files",
+        "tags": [
+          "files"
+        ]
+      }
+    },
+    "/api/files/{file_id}": {
+      "delete": {
+        "description": "Delete an uploaded file",
+        "operationId": "delete_file_api_files__file_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "file_id",
+            "required": true,
+            "schema": {
+              "title": "File Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDeleteResponse"
+                }
+              }
+            },
+            "description": "File deleted successfully"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "File not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete an uploaded file",
+        "tags": [
+          "files"
+        ]
+      },
+      "get": {
+        "description": "Download a file",
+        "operationId": "get_file_api_files__file_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "file_id",
+            "required": true,
+            "schema": {
+              "title": "File Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/octet-stream": {}
+            },
+            "description": "File content as binary"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "File not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Download a converted file",
+        "tags": [
+          "files"
+        ]
+      }
+    },
+    "/api/health/info": {
+      "get": {
+        "description": "Return application metadata",
+        "operationId": "app_info_api_health_info_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppInfo"
+                }
+              }
+            },
+            "description": "Application metadata"
+          }
+        },
+        "summary": "Get application metadata",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/health/live": {
+      "get": {
+        "description": "Simple liveness check to confirm the server is running",
+        "operationId": "liveness_api_health_live_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthStatus"
+                }
+              }
+            },
+            "description": "Liveness status"
+          }
+        },
+        "summary": "Liveness check",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/health/ready": {
+      "get": {
+        "description": "Readiness check to confirm the server is ready to handle requests",
+        "operationId": "readiness_api_health_ready_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResponse"
+                }
+              }
+            },
+            "description": "Ready - all checks passed"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResponse"
+                }
+              }
+            },
+            "description": "Not ready - one or more checks failed"
+          }
+        },
+        "summary": "Readiness check",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/jobs/": {
+      "get": {
+        "operationId": "list_jobs_api_jobs__get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Jobs",
+        "tags": [
+          "jobs"
+        ]
+      }
+    }
+  }
+}
