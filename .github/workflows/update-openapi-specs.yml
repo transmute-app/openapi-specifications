@@ -1,0 +1,16 @@
+name: Update OpenAPI Specs
+
+on:
+  repository_dispatch:
+    types: [openapi_schema_generated]
+
+jobs:
+  update-openapi-specs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        env:
+          PAYLOAD: ${{ github.event.client_payload }}
+        run: |
+          echo "This is a test step for the Update OpenAPI Specs workflow."
+          echo "Payload: $PAYLOAD"
