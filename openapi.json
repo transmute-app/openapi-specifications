@@ -892,5 +892,12 @@
         ]
       }
     }
-  }
+  },
+  "security": [],
+  "servers": [
+    {
+      "description": "Transmute API server",
+      "url": "http://YOUR_TRANSMUTE_HOST:3313"
+    }
+  ]
 }
