@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Test
         env:
-          PAYLOAD: ${{ github.event.client_payload }}
+          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
         run: |
           echo "This is a test step for the Update OpenAPI Specs workflow."
           echo "Payload: $PAYLOAD"
