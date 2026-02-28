@@ -50,7 +50,9 @@
               "citrinitas",
               "viriditas",
               "nigredo",
-              "albedo"
+              "albedo",
+              "aurora",
+              "caelum"
             ],
             "example": "rubedo",
             "title": "Theme",
@@ -115,7 +117,9 @@
                   "citrinitas",
                   "viriditas",
                   "nigredo",
-                  "albedo"
+                  "albedo",
+                  "aurora",
+                  "caelum"
                 ],
                 "type": "string"
               },
