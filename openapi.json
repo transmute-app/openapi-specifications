@@ -31,6 +31,12 @@
             "title": "Auto Download",
             "type": "boolean"
           },
+          "cleanup_ttl_minutes": {
+            "description": "Time-to-live in minutes for cleanup",
+            "example": 60,
+            "title": "Cleanup Ttl Minutes",
+            "type": "integer"
+          },
           "keep_originals": {
             "description": "Retain uploaded source files after conversion",
             "example": true,
@@ -54,7 +60,8 @@
         "required": [
           "theme",
           "auto_download",
-          "keep_originals"
+          "keep_originals",
+          "cleanup_ttl_minutes"
         ],
         "title": "AppSettingsResponse",
         "type": "object"
@@ -73,6 +80,19 @@
             "description": "Auto-download on completion",
             "example": false,
             "title": "Auto Download"
+          },
+          "cleanup_ttl_minutes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Time-to-live in minutes for cleanup",
+            "example": 60,
+            "title": "Cleanup Ttl Minutes"
           },
           "keep_originals": {
             "anyOf": [
