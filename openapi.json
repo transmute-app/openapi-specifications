@@ -590,6 +590,28 @@
         ]
       }
     },
+    "/api/conversions/all": {
+      "delete": {
+        "description": "Delete all converted files and their relations to the original files",
+        "operationId": "delete_conversion_api_conversions_all_delete",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDeleteResponse"
+                }
+              }
+            },
+            "description": "Conversion history deleted successfully"
+          }
+        },
+        "summary": "Delete all converted files and their relations to the original files",
+        "tags": [
+          "conversions"
+        ]
+      }
+    },
     "/api/conversions/complete": {
       "get": {
         "description": "List all completed conversions with their converted and original file metadata.",
@@ -732,6 +754,28 @@
           }
         },
         "summary": "Upload a file",
+        "tags": [
+          "files"
+        ]
+      }
+    },
+    "/api/files/all": {
+      "delete": {
+        "description": "Delete all uploaded files",
+        "operationId": "delete_all_files_api_files_all_delete",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDeleteResponse"
+                }
+              }
+            },
+            "description": "All files deleted successfully"
+          }
+        },
+        "summary": "Delete all uploaded files",
         "tags": [
           "files"
         ]
