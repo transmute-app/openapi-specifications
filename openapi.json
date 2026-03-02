@@ -617,7 +617,7 @@
     "/api/conversions/all": {
       "delete": {
         "description": "Delete all converted files and their relations to the original files",
-        "operationId": "delete_all_conversions_api_conversions_all_delete",
+        "operationId": "delete_conversion_api_conversions_all_delete",
         "responses": {
           "200": {
             "content": {
@@ -661,7 +661,7 @@
     "/api/conversions/{conversion_id}": {
       "delete": {
         "description": "Delete a converted file and its relation to the original file",
-        "operationId": "delete_single_conversion_api_conversions__conversion_id__delete",
+        "operationId": "delete_conversion_api_conversions__conversion_id__delete",
         "parameters": [
           {
             "in": "path",
