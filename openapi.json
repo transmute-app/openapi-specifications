@@ -489,6 +489,27 @@
         }
       }
     },
+    "/api/converters": {
+      "get": {
+        "tags": [
+          "converters"
+        ],
+        "summary": "List all available converters",
+        "operationId": "list_converters_api_converters_get",
+        "responses": {
+          "200": {
+            "description": "List of converters with supported input and output formats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConverterMetadataListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/jobs": {
       "get": {
         "tags": [
@@ -838,6 +859,61 @@
           "output_format"
         ],
         "title": "ConversionRequest"
+      },
+      "ConverterMetadata": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "example": "drawio_convert"
+          },
+          "supported_input_formats": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Supported Input Formats",
+            "example": [
+              "drawio"
+            ]
+          },
+          "supported_output_formats": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Supported Output Formats",
+            "example": [
+              "png",
+              "pdf",
+              "jpg"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "supported_input_formats",
+          "supported_output_formats"
+        ],
+        "title": "ConverterMetadata"
+      },
+      "ConverterMetadataListResponse": {
+        "properties": {
+          "converters": {
+            "items": {
+              "$ref": "#/components/schemas/ConverterMetadata"
+            },
+            "type": "array",
+            "title": "Converters",
+            "description": "List of the available converters"
+          }
+        },
+        "type": "object",
+        "required": [
+          "converters"
+        ],
+        "title": "ConverterMetadataListResponse"
       },
       "ErrorResponse": {
         "properties": {
