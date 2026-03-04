@@ -648,6 +648,12 @@
             "description": "Retain uploaded source files after conversion",
             "example": true
           },
+          "cleanup_enabled": {
+            "type": "boolean",
+            "title": "Cleanup Enabled",
+            "description": "Enable automatic cleanup of old files",
+            "example": true
+          },
           "cleanup_ttl_minutes": {
             "type": "integer",
             "title": "Cleanup Ttl Minutes",
@@ -660,6 +666,7 @@
           "theme",
           "auto_download",
           "keep_originals",
+          "cleanup_enabled",
           "cleanup_ttl_minutes"
         ],
         "title": "AppSettingsResponse"
@@ -712,6 +719,19 @@
             ],
             "title": "Keep Originals",
             "description": "Keep original files after conversion",
+            "example": true
+          },
+          "cleanup_enabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cleanup Enabled",
+            "description": "Enable automatic cleanup of old files",
             "example": true
           },
           "cleanup_ttl_minutes": {
