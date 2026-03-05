@@ -593,6 +593,112 @@
           }
         }
       }
+    },
+    "/api/default-formats": {
+      "get": {
+        "tags": [
+          "default-formats"
+        ],
+        "summary": "Get all default format mappings",
+        "description": "Return all user-configured default format mappings.",
+        "operationId": "get_default_formats_api_default_formats_get",
+        "responses": {
+          "200": {
+            "description": "List of default format mappings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultFormatListResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "default-formats"
+        ],
+        "summary": "Set a default format mapping",
+        "description": "Create or update a default output format for a given input format.",
+        "operationId": "upsert_default_format_api_default_formats_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DefaultFormatMapping"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The created or updated mapping",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultFormatMapping"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/default-formats/{input_format}": {
+      "delete": {
+        "tags": [
+          "default-formats"
+        ],
+        "summary": "Delete a default format mapping",
+        "description": "Remove a default format mapping for the given input format.",
+        "operationId": "delete_default_format_api_default_formats__input_format__delete",
+        "parameters": [
+          {
+            "name": "input_format",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Input Format"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mapping deleted",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "description": "Mapping not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -934,6 +1040,45 @@
           "converters"
         ],
         "title": "ConverterMetadataListResponse"
+      },
+      "DefaultFormatListResponse": {
+        "properties": {
+          "defaults": {
+            "items": {
+              "$ref": "#/components/schemas/DefaultFormatMapping"
+            },
+            "type": "array",
+            "title": "Defaults",
+            "description": "List of default format mappings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "defaults"
+        ],
+        "title": "DefaultFormatListResponse"
+      },
+      "DefaultFormatMapping": {
+        "properties": {
+          "input_format": {
+            "type": "string",
+            "title": "Input Format",
+            "description": "Input file format",
+            "example": "png"
+          },
+          "output_format": {
+            "type": "string",
+            "title": "Output Format",
+            "description": "Default output format",
+            "example": "jpeg"
+          }
+        },
+        "type": "object",
+        "required": [
+          "input_format",
+          "output_format"
+        ],
+        "title": "DefaultFormatMapping"
       },
       "ErrorResponse": {
         "properties": {
