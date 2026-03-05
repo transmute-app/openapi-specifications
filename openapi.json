@@ -1050,11 +1050,20 @@
             "type": "array",
             "title": "Defaults",
             "description": "List of default format mappings"
+          },
+          "aliases": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Aliases",
+            "description": "Format alias map (e.g. jpg -> jpeg)"
           }
         },
         "type": "object",
         "required": [
-          "defaults"
+          "defaults",
+          "aliases"
         ],
         "title": "DefaultFormatListResponse"
       },
