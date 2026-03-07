@@ -94,7 +94,7 @@
           "files"
         ],
         "summary": "List all uploaded files",
-        "description": "List all uploaded files",
+        "description": "List all uploaded files for the current user",
         "operationId": "list_files_api_files_get",
         "responses": {
           "200": {
@@ -107,7 +107,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       },
       "post": {
         "tags": [
@@ -157,7 +162,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       }
     },
     "/api/files/{file_id}": {
@@ -168,6 +178,11 @@
         "summary": "Download a converted file",
         "description": "Download a file",
         "operationId": "get_file_api_files__file_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "file_id",
@@ -215,6 +230,11 @@
         "summary": "Delete an uploaded file",
         "description": "Delete an uploaded file",
         "operationId": "delete_file_api_files__file_id__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "file_id",
@@ -305,7 +325,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       }
     },
     "/api/files/all": {
@@ -314,7 +339,7 @@
           "files"
         ],
         "summary": "Delete all uploaded files",
-        "description": "Delete all uploaded files",
+        "description": "Delete all uploaded files for the current user",
         "operationId": "delete_all_files_api_files_all_delete",
         "responses": {
           "200": {
@@ -327,7 +352,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       }
     },
     "/api/conversions/complete": {
@@ -336,7 +366,7 @@
           "conversions"
         ],
         "summary": "List completed conversions",
-        "description": "List all completed conversions with their converted and original file metadata.",
+        "description": "List all completed conversions for the current user.",
         "operationId": "list_conversions_api_conversions_complete_get",
         "responses": {
           "200": {
@@ -349,7 +379,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       }
     },
     "/api/conversions": {
@@ -411,7 +446,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       }
     },
     "/api/conversions/all": {
@@ -420,7 +460,7 @@
           "conversions"
         ],
         "summary": "Delete all converted files and their relations to the original files",
-        "description": "Delete all converted files and their relations to the original files",
+        "description": "Delete all converted files and their relations for the current user",
         "operationId": "delete_all_conversions_api_conversions_all_delete",
         "responses": {
           "200": {
@@ -433,7 +473,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       }
     },
     "/api/conversions/{conversion_id}": {
@@ -442,8 +487,13 @@
           "conversions"
         ],
         "summary": "Delete a converted file and its relation to the original file",
-        "description": "Delete a converted file and its relation to the original file",
+        "description": "Delete a converted file and its relation",
         "operationId": "delete_conversion_api_conversions__conversion_id__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "conversion_id",
@@ -507,7 +557,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       }
     },
     "/api/jobs": {
@@ -526,7 +581,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       }
     },
     "/api/settings": {
@@ -535,7 +595,7 @@
           "settings"
         ],
         "summary": "Get app settings",
-        "description": "Return the current application settings.",
+        "description": "Return the current user's application settings.\n\nCleanup settings are always sourced from the first admin's row,\nsince they are a system-wide concern managed by administrators.",
         "operationId": "get_app_settings_api_settings_get",
         "responses": {
           "200": {
@@ -548,14 +608,19 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       },
       "patch": {
         "tags": [
           "settings"
         ],
         "summary": "Update app settings",
-        "description": "Partially update application settings. Only provided fields are changed.",
+        "description": "Partially update the current user's settings. Only provided fields are changed.\n\nCleanup settings (cleanup_enabled, cleanup_ttl_minutes) are admin-only.",
         "operationId": "update_app_settings_api_settings_patch",
         "requestBody": {
           "content": {
@@ -591,7 +656,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       }
     },
     "/api/default-formats": {
@@ -613,7 +683,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -653,7 +728,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
       }
     },
     "/api/default-formats/{input_format}": {
@@ -664,6 +744,11 @@
         "summary": "Delete a default format mapping",
         "description": "Remove a default format mapping for the given input format.",
         "operationId": "delete_default_format_api_default_formats__input_format__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
         "parameters": [
           {
             "name": "input_format",
@@ -699,10 +784,842 @@
           }
         }
       }
+    },
+    "/api/users/bootstrap-status": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get bootstrap status",
+        "description": "Return whether the application still needs its first admin account.",
+        "operationId": "get_bootstrap_status_api_users_bootstrap_status_get",
+        "responses": {
+          "200": {
+            "description": "Whether first-time user setup is required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserBootstrapStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "List all users",
+        "description": "Return all users without exposing password hashes.",
+        "operationId": "list_users_api_users_get",
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a user",
+        "description": "Create a new user and hash the provided password before storage.",
+        "operationId": "create_user_api_users_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Username already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/users/token": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Issue an OAuth2 bearer token",
+        "description": "Issue a JWT bearer token using the OAuth2 password flow form.",
+        "operationId": "issue_token_api_users_token_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_issue_token_api_users_token_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Token issued successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAuthResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User account is disabled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/authenticate": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Authenticate a user",
+        "description": "Validate username and password and issue a JWT bearer token.",
+        "operationId": "authenticate_user_api_users_authenticate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserAuthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Authentication succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAuthResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User account is disabled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get the authenticated user",
+        "description": "Return the authenticated user derived from the bearer token.",
+        "operationId": "get_me_api_users_me_get",
+        "responses": {
+          "200": {
+            "description": "Current authenticated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User account is disabled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update the authenticated user",
+        "description": "Allow a user to update their own account except for role changes.",
+        "operationId": "update_me_api_users_me_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSelfUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Updated current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid bearer token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Username already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/users/{user_uuid}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get a user by UUID",
+        "description": "Return a user by UUID without exposing the password hash.",
+        "operationId": "get_user_api_users__user_uuid__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update a user",
+        "description": "Partially update a user, hashing a replacement password when provided.",
+        "operationId": "update_user_api_users__user_uuid__patch",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Username already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete a user",
+        "description": "Delete a user by UUID and cascade-remove all their data.",
+        "operationId": "delete_user_api_users__user_uuid__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDeleteResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/api-keys": {
+      "get": {
+        "tags": [
+          "api-keys"
+        ],
+        "summary": "List API keys for the current user",
+        "description": "Return all API keys belonging to the authenticated user (without hashes).",
+        "operationId": "list_api_keys_api_api_keys_get",
+        "responses": {
+          "200": {
+            "description": "List of API keys",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "api-keys"
+        ],
+        "summary": "Create an API key",
+        "description": "Generate a new API key for the authenticated user.\n\nThe raw key is returned exactly once in this response and is never stored.",
+        "operationId": "create_api_key_api_api_keys_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiKeyCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "API key created (raw key shown once)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyCreatedResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/api-keys/{key_id}": {
+      "delete": {
+        "tags": [
+          "api-keys"
+        ],
+        "summary": "Delete an API key",
+        "description": "Delete one of the authenticated user's API keys.",
+        "operationId": "delete_api_key_api_api_keys__key_id__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "API key deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyDeleteResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "API key not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "ApiKeyCreateRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Name",
+            "description": "Human-readable label for the key",
+            "example": "CI pipeline"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ApiKeyCreateRequest"
+      },
+      "ApiKeyCreatedResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique key identifier"
+          },
+          "user_uuid": {
+            "type": "string",
+            "title": "User Uuid",
+            "description": "Owning user UUID"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable label"
+          },
+          "prefix": {
+            "type": "string",
+            "title": "Prefix",
+            "description": "First 8 characters of the key for identification"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At",
+            "description": "Creation timestamp"
+          },
+          "raw_key": {
+            "type": "string",
+            "title": "Raw Key",
+            "description": "Full API key (shown only once)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_uuid",
+          "name",
+          "prefix",
+          "raw_key"
+        ],
+        "title": "ApiKeyCreatedResponse"
+      },
+      "ApiKeyDeleteResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Deletion status message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "ApiKeyDeleteResponse"
+      },
+      "ApiKeyListResponse": {
+        "properties": {
+          "api_keys": {
+            "items": {
+              "$ref": "#/components/schemas/ApiKeyResponse"
+            },
+            "type": "array",
+            "title": "Api Keys",
+            "description": "List of API keys for the user"
+          }
+        },
+        "type": "object",
+        "required": [
+          "api_keys"
+        ],
+        "title": "ApiKeyListResponse"
+      },
+      "ApiKeyResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique key identifier"
+          },
+          "user_uuid": {
+            "type": "string",
+            "title": "User Uuid",
+            "description": "Owning user UUID"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable label"
+          },
+          "prefix": {
+            "type": "string",
+            "title": "Prefix",
+            "description": "First 8 characters of the key for identification"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At",
+            "description": "Creation timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_uuid",
+          "name",
+          "prefix"
+        ],
+        "title": "ApiKeyResponse"
+      },
       "AppInfo": {
         "properties": {
           "name": {
@@ -877,6 +1794,65 @@
           "file_ids"
         ],
         "title": "BatchDownloadRequest"
+      },
+      "Body_issue_token_api_users_token_post": {
+        "properties": {
+          "grant_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^password$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grant Type"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "title": "Password"
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope",
+            "default": ""
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "client_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "format": "password",
+            "title": "Client Secret"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "Body_issue_token_api_users_token_post"
       },
       "Body_upload_file_api_files_post": {
         "properties": {
@@ -1328,6 +2304,402 @@
         ],
         "title": "ReadinessResponse"
       },
+      "UserAuthRequest": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Username",
+            "description": "Username to authenticate",
+            "example": "alice"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Password",
+            "description": "Plain-text password to verify",
+            "example": "correct horse battery staple"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "UserAuthRequest"
+      },
+      "UserAuthResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token",
+            "description": "Signed JWT access token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "description": "OAuth2 token type",
+            "example": "bearer"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In",
+            "description": "Token lifetime in seconds",
+            "example": 3600
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse",
+            "description": "Authenticated user details"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "token_type",
+          "expires_in",
+          "user"
+        ],
+        "title": "UserAuthResponse"
+      },
+      "UserBootstrapStatusResponse": {
+        "properties": {
+          "requires_setup": {
+            "type": "boolean",
+            "title": "Requires Setup",
+            "description": "Whether the first admin account still needs to be created",
+            "example": true
+          },
+          "user_count": {
+            "type": "integer",
+            "title": "User Count",
+            "description": "Current number of users",
+            "example": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "requires_setup",
+          "user_count"
+        ],
+        "title": "UserBootstrapStatusResponse"
+      },
+      "UserCreateRequest": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Username",
+            "description": "Unique account username",
+            "example": "alice"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Optional email address",
+            "example": "alice@example.com"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name",
+            "description": "Optional full name",
+            "example": "Alice Example"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "title": "Password",
+            "description": "Plain-text password (min 8 characters)",
+            "example": "correct horse battery staple"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "member"
+            ],
+            "title": "Role",
+            "description": "Assigned role",
+            "default": "member",
+            "example": "member"
+          },
+          "disabled": {
+            "type": "boolean",
+            "title": "Disabled",
+            "description": "Whether the account starts disabled",
+            "default": false,
+            "example": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "UserCreateRequest"
+      },
+      "UserDeleteResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Deletion status message",
+            "example": "User deleted successfully"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "UserDeleteResponse"
+      },
+      "UserListResponse": {
+        "properties": {
+          "users": {
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "type": "array",
+            "title": "Users",
+            "description": "List of users"
+          }
+        },
+        "type": "object",
+        "required": [
+          "users"
+        ],
+        "title": "UserListResponse"
+      },
+      "UserResponse": {
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "title": "Uuid",
+            "description": "Stable user UUID",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "Unique account username",
+            "example": "alice"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Optional email address",
+            "example": "alice@example.com"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name",
+            "description": "Optional full name",
+            "example": "Alice Example"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "member"
+            ],
+            "title": "Role",
+            "description": "Assigned role",
+            "example": "member"
+          },
+          "disabled": {
+            "type": "boolean",
+            "title": "Disabled",
+            "description": "Whether the account is disabled",
+            "example": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "uuid",
+          "username",
+          "role",
+          "disabled"
+        ],
+        "title": "UserResponse"
+      },
+      "UserSelfUpdateRequest": {
+        "properties": {
+          "username": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Username",
+            "description": "Unique account username",
+            "example": "alice"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Optional email address",
+            "example": "alice@example.com"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name",
+            "description": "Optional full name",
+            "example": "Alice Example"
+          },
+          "password": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 8
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Password",
+            "description": "New plain-text password (min 8 characters)",
+            "example": "new secure password"
+          }
+        },
+        "type": "object",
+        "title": "UserSelfUpdateRequest"
+      },
+      "UserUpdateRequest": {
+        "properties": {
+          "username": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Username",
+            "description": "Unique account username",
+            "example": "alice"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Optional email address",
+            "example": "alice@example.com"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name",
+            "description": "Optional full name",
+            "example": "Alice Example"
+          },
+          "password": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 8
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Password",
+            "description": "New plain-text password (min 8 characters)",
+            "example": "new secure password"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "admin",
+                  "member"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role",
+            "description": "Assigned role",
+            "example": "admin"
+          },
+          "disabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Disabled",
+            "description": "Whether the account is disabled",
+            "example": false
+          }
+        },
+        "type": "object",
+        "title": "UserUpdateRequest"
+      },
       "ValidationError": {
         "properties": {
           "loc": {
@@ -1368,7 +2740,18 @@
         ],
         "title": "ValidationError"
       }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
   },
-  "security": []
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ]
 }
