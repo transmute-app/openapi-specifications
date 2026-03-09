@@ -3,7 +3,7 @@
   "info": {
     "title": "Transmute API",
     "description": "API to interact with Transmute without the need for a frontend.\n\n## Authentication\n\n### Getting an API key\n\nAuthenticate with your user account first, then create a key under 'My Account' -> 'API Keys'.\nThe generated key is shown exactly once, so store it safely after creation.\n\n### Using an API key\n\nFor any endpoint that expects bearer authentication, send your API key in the `Authorization` header:\n\n```http\nAuthorization: Bearer <your-api-key>\n```\n\nThe API accepts either a JWT bearer token for authenticated users through the web interface,\nor an API key for programmatic access anywhere bearer auth is required.",
-    "version": "0.1.1"
+    "version": "dev"
   },
   "servers": [
     {
