@@ -2121,49 +2121,10 @@
             "title": "Id",
             "example": "123e4567-e89b-12d3-a456-426614174000"
           },
-          "original_filename": {
+          "storage_path": {
             "type": "string",
-            "title": "Original Filename",
-            "example": "example.jpg"
-          },
-          "media_type": {
-            "type": "string",
-            "title": "Media Type",
-            "example": "jpg"
-          },
-          "extension": {
-            "type": "string",
-            "title": "Extension",
-            "example": ".jpg"
-          },
-          "size_bytes": {
-            "type": "integer",
-            "title": "Size Bytes",
-            "example": 204800
-          },
-          "sha256_checksum": {
-            "type": "string",
-            "title": "Sha256 Checksum",
-            "example": "abc123def456..."
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "original_filename",
-          "media_type",
-          "extension",
-          "size_bytes",
-          "sha256_checksum"
-        ],
-        "title": "FileMetadata"
-      },
-      "FileMetadataWithFormats": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
+            "title": "Storage Path",
+            "example": "data/uploads/6e36aefe-b129-436e-999d-f5037075c017.png"
           },
           "original_filename": {
             "type": "string",
@@ -2189,6 +2150,11 @@
             "type": "string",
             "title": "Sha256 Checksum",
             "example": "abc123def456..."
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id",
+            "example": "67118d71-a0c5-443c-80b5-e222bb63bfc2"
           },
           "compatible_formats": {
             "items": {
@@ -2207,11 +2173,83 @@
         "type": "object",
         "required": [
           "id",
+          "storage_path",
           "original_filename",
           "media_type",
           "extension",
           "size_bytes",
           "sha256_checksum",
+          "user_id",
+          "compatible_formats"
+        ],
+        "title": "FileMetadata"
+      },
+      "FileMetadataWithFormats": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "storage_path": {
+            "type": "string",
+            "title": "Storage Path",
+            "example": "data/uploads/6e36aefe-b129-436e-999d-f5037075c017.png"
+          },
+          "original_filename": {
+            "type": "string",
+            "title": "Original Filename",
+            "example": "example.jpg"
+          },
+          "media_type": {
+            "type": "string",
+            "title": "Media Type",
+            "example": "jpg"
+          },
+          "extension": {
+            "type": "string",
+            "title": "Extension",
+            "example": ".jpg"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "title": "Size Bytes",
+            "example": 204800
+          },
+          "sha256_checksum": {
+            "type": "string",
+            "title": "Sha256 Checksum",
+            "example": "abc123def456..."
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id",
+            "example": "67118d71-a0c5-443c-80b5-e222bb63bfc2"
+          },
+          "compatible_formats": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Compatible Formats",
+            "description": "List of compatible output formats",
+            "example": [
+              "png",
+              "gif",
+              "webp"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "storage_path",
+          "original_filename",
+          "media_type",
+          "extension",
+          "size_bytes",
+          "sha256_checksum",
+          "user_id",
           "compatible_formats"
         ],
         "title": "FileMetadataWithFormats"
