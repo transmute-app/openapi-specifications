@@ -175,7 +175,7 @@
         "tags": [
           "files"
         ],
-        "summary": "Download a converted file",
+        "summary": "Download a file (either converted or original) based on file ID",
         "description": "Download a file",
         "operationId": "get_file_api_files__file_id__get",
         "security": [
