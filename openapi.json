@@ -1474,6 +1474,106 @@
           }
         }
       }
+    },
+    "/api/oidc/config": {
+      "get": {
+        "tags": [
+          "oidc"
+        ],
+        "summary": "Get OIDC configuration for the frontend",
+        "description": "Return whether OIDC is available and its display name (no secrets).",
+        "operationId": "oidc_config_api_oidc_config_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/login": {
+      "get": {
+        "tags": [
+          "oidc"
+        ],
+        "summary": "Start OIDC login flow",
+        "description": "Redirect the user to the OIDC provider's authorization endpoint.",
+        "operationId": "oidc_login_api_oidc_login_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/callback": {
+      "get": {
+        "tags": [
+          "oidc"
+        ],
+        "summary": "OIDC callback",
+        "description": "Handle the OIDC provider callback, link or create a user, and redirect with a session token.",
+        "operationId": "oidc_callback_api_oidc_callback_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/oidc/exchange": {
+      "post": {
+        "tags": [
+          "oidc"
+        ],
+        "summary": "Exchange a one-time OIDC code for a JWT",
+        "description": "Trade the short-lived code from the callback redirect for the real JWT.",
+        "operationId": "oidc_exchange_api_oidc_exchange_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/_OidcExchangeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2779,6 +2879,19 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "_OidcExchangeRequest": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "title": "_OidcExchangeRequest"
       }
     },
     "securitySchemes": {
