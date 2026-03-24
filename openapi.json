@@ -1574,6 +1574,26 @@
           }
         }
       }
+    },
+    "/api/guest/session": {
+      "post": {
+        "tags": [
+          "guest"
+        ],
+        "summary": "Create or resume a guest session",
+        "description": "Create a new guest user or resume an existing guest session via cookie.",
+        "operationId": "create_guest_session_api_guest_session_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2570,7 +2590,8 @@
             "type": "string",
             "enum": [
               "admin",
-              "member"
+              "member",
+              "guest"
             ],
             "title": "Role",
             "description": "Assigned role",
@@ -2668,7 +2689,8 @@
             "type": "string",
             "enum": [
               "admin",
-              "member"
+              "member",
+              "guest"
             ],
             "title": "Role",
             "description": "Assigned role",
@@ -2678,6 +2700,13 @@
             "type": "boolean",
             "title": "Disabled",
             "description": "Whether the account is disabled",
+            "example": false
+          },
+          "is_guest": {
+            "type": "boolean",
+            "title": "Is Guest",
+            "description": "Whether this is a guest account",
+            "default": false,
             "example": false
           }
         },
@@ -2812,7 +2841,8 @@
                 "type": "string",
                 "enum": [
                   "admin",
-                  "member"
+                  "member",
+                  "guest"
                 ]
               },
               {
