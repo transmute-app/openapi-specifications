@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://YOUR_TRANSMUTE_IP:3313",
+      "url": "http://0.0.0.0:3313",
       "description": "Transmute API server"
     }
   ],
