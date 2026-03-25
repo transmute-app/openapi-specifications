@@ -1594,6 +1594,43 @@
           }
         }
       }
+    },
+    "/api/stats": {
+      "get": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Get stats for all users",
+        "description": "Return upload, conversion, and storage stats for every user (admin only).",
+        "operationId": "get_stats_api_stats_get",
+        "responses": {
+          "200": {
+            "description": "Aggregated stats across all users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatsResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Admin privileges required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -2464,6 +2501,44 @@
         ],
         "title": "ReadinessResponse"
       },
+      "StatsResponse": {
+        "properties": {
+          "total_files_uploaded": {
+            "type": "integer",
+            "title": "Total Files Uploaded",
+            "description": "Total files uploaded across all users",
+            "example": 42
+          },
+          "total_conversions": {
+            "type": "integer",
+            "title": "Total Conversions",
+            "description": "Total conversions across all users",
+            "example": 30
+          },
+          "total_storage_bytes": {
+            "type": "integer",
+            "title": "Total Storage Bytes",
+            "description": "Total storage used in bytes across all users",
+            "example": 104857600
+          },
+          "users": {
+            "items": {
+              "$ref": "#/components/schemas/UserStatsItem"
+            },
+            "type": "array",
+            "title": "Users",
+            "description": "Per-user breakdown of stats"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_files_uploaded",
+          "total_conversions",
+          "total_storage_bytes",
+          "users"
+        ],
+        "title": "StatsResponse"
+      },
       "UserAuthRequest": {
         "properties": {
           "username": {
@@ -2778,6 +2853,49 @@
         },
         "type": "object",
         "title": "UserSelfUpdateRequest"
+      },
+      "UserStatsItem": {
+        "properties": {
+          "user_uuid": {
+            "type": "string",
+            "title": "User Uuid",
+            "description": "User UUID",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "Username",
+            "example": "alice"
+          },
+          "files_uploaded": {
+            "type": "integer",
+            "title": "Files Uploaded",
+            "description": "Number of files uploaded",
+            "example": 12
+          },
+          "conversions": {
+            "type": "integer",
+            "title": "Conversions",
+            "description": "Number of conversions performed",
+            "example": 8
+          },
+          "storage_bytes": {
+            "type": "integer",
+            "title": "Storage Bytes",
+            "description": "Total storage used in bytes (uploads + conversions)",
+            "example": 10485760
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_uuid",
+          "username",
+          "files_uploaded",
+          "conversions",
+          "storage_bytes"
+        ],
+        "title": "UserStatsItem"
       },
       "UserUpdateRequest": {
         "properties": {
