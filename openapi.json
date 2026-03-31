@@ -2059,6 +2059,19 @@
             "title": "Sha256 Checksum",
             "example": "abc123def456..."
           },
+          "quality": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quality",
+            "description": "Quality setting used for this conversion",
+            "example": "medium"
+          },
           "original_file": {
             "anyOf": [
               {
@@ -2327,17 +2340,24 @@
             "example": "67118d71-a0c5-443c-80b5-e222bb63bfc2"
           },
           "compatible_formats": {
-            "items": {
-              "type": "string"
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
             },
-            "type": "array",
+            "type": "object",
             "title": "Compatible Formats",
-            "description": "List of compatible output formats",
-            "example": [
-              "png",
-              "gif",
-              "webp"
-            ]
+            "description": "Map of compatible output formats to their available quality options",
+            "example": {
+              "gif": [],
+              "png": [],
+              "webp": [
+                "low",
+                "medium",
+                "high"
+              ]
+            }
           }
         },
         "type": "object",
@@ -2397,17 +2417,24 @@
             "example": "67118d71-a0c5-443c-80b5-e222bb63bfc2"
           },
           "compatible_formats": {
-            "items": {
-              "type": "string"
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
             },
-            "type": "array",
+            "type": "object",
             "title": "Compatible Formats",
-            "description": "List of compatible output formats",
-            "example": [
-              "png",
-              "gif",
-              "webp"
-            ]
+            "description": "Map of compatible output formats to their available quality options",
+            "example": {
+              "gif": [],
+              "png": [],
+              "webp": [
+                "low",
+                "medium",
+                "high"
+              ]
+            }
           }
         },
         "type": "object",
