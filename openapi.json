@@ -785,6 +785,127 @@
         }
       }
     },
+    "/api/default-qualities": {
+      "get": {
+        "tags": [
+          "default-qualities"
+        ],
+        "summary": "Get all default quality mappings",
+        "description": "Return all user-configured default quality mappings.",
+        "operationId": "get_default_qualities_api_default_qualities_get",
+        "responses": {
+          "200": {
+            "description": "List of default quality mappings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultQualityListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "default-qualities"
+        ],
+        "summary": "Set a default quality mapping",
+        "description": "Create or update a default quality for a given output format.",
+        "operationId": "upsert_default_quality_api_default_qualities_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DefaultQualityMapping"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The created or updated mapping",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultQualityMapping"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/default-qualities/{output_format}": {
+      "delete": {
+        "tags": [
+          "default-qualities"
+        ],
+        "summary": "Delete a default quality mapping",
+        "description": "Remove a default quality mapping for the given output format.",
+        "operationId": "delete_default_quality_api_default_qualities__output_format__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "output_format",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Output Format"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mapping deleted",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "404": {
+            "description": "Mapping not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/users/bootstrap-status": {
       "get": {
         "tags": [
@@ -2175,13 +2296,39 @@
               "pdf",
               "jpg"
             ]
+          },
+          "formats_with_qualities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Formats With Qualities",
+            "description": "Output formats that support quality options",
+            "example": [
+              "jpeg"
+            ]
+          },
+          "qualities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Qualities",
+            "description": "Available quality levels",
+            "example": [
+              "low",
+              "medium",
+              "high"
+            ]
           }
         },
         "type": "object",
         "required": [
           "name",
           "supported_input_formats",
-          "supported_output_formats"
+          "supported_output_formats",
+          "formats_with_qualities",
+          "qualities"
         ],
         "title": "ConverterMetadata"
       },
@@ -2249,6 +2396,45 @@
           "output_format"
         ],
         "title": "DefaultFormatMapping"
+      },
+      "DefaultQualityListResponse": {
+        "properties": {
+          "defaults": {
+            "items": {
+              "$ref": "#/components/schemas/DefaultQualityMapping"
+            },
+            "type": "array",
+            "title": "Defaults",
+            "description": "List of default quality mappings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "defaults"
+        ],
+        "title": "DefaultQualityListResponse"
+      },
+      "DefaultQualityMapping": {
+        "properties": {
+          "output_format": {
+            "type": "string",
+            "title": "Output Format",
+            "description": "Output file format",
+            "example": "jpeg"
+          },
+          "quality": {
+            "type": "string",
+            "title": "Quality",
+            "description": "Default quality level",
+            "example": "high"
+          }
+        },
+        "type": "object",
+        "required": [
+          "output_format",
+          "quality"
+        ],
+        "title": "DefaultQualityMapping"
       },
       "ErrorResponse": {
         "properties": {
