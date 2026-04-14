@@ -3009,6 +3009,13 @@
             "description": "Whether this is a guest account",
             "default": false,
             "example": false
+          },
+          "has_usable_password": {
+            "type": "boolean",
+            "title": "Has Usable Password",
+            "description": "Whether the account has a local password (false for OIDC-only accounts)",
+            "default": true,
+            "example": true
           }
         },
         "type": "object",
