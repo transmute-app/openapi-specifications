@@ -142,8 +142,8 @@
               }
             }
           },
-          "500": {
-            "description": "Upload failed",
+          "422": {
+            "description": "File has no supported conversions",
             "content": {
               "application/json": {
                 "schema": {
@@ -152,12 +152,12 @@
               }
             }
           },
-          "422": {
-            "description": "Validation Error",
+          "500": {
+            "description": "Upload failed",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
