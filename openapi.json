@@ -170,6 +170,62 @@
         ]
       }
     },
+    "/api/files/url": {
+      "post": {
+        "tags": [
+          "files"
+        ],
+        "summary": "Upload a file from a URL",
+        "operationId": "upload_file_from_url_api_files_url_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UrlUploadRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "File downloaded and uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileUploadResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "URL download failed or file has no supported conversions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Upload failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
     "/api/files/{file_id}": {
       "get": {
         "tags": [
@@ -2764,6 +2820,21 @@
           "users"
         ],
         "title": "StatsResponse"
+      },
+      "UrlUploadRequest": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "description": "Direct URL to a file for Transmute to download",
+            "example": "https://example.com/file.pdf"
+          }
+        },
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "UrlUploadRequest"
       },
       "UserAuthRequest": {
         "properties": {
