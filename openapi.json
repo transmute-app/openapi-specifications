@@ -175,7 +175,7 @@
         "tags": [
           "files"
         ],
-        "summary": "Upload a file from a URL",
+        "summary": "Upload one or more files from a URL",
         "operationId": "upload_file_from_url_api_files_url_post",
         "requestBody": {
           "content": {
@@ -189,11 +189,11 @@
         },
         "responses": {
           "200": {
-            "description": "File downloaded and uploaded successfully",
+            "description": "File(s) downloaded and uploaded successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FileUploadResponse"
+                  "$ref": "#/components/schemas/FileUrlUploadResponse"
                 }
               }
             }
@@ -2712,6 +2712,30 @@
           "metadata"
         ],
         "title": "FileUploadResponse"
+      },
+      "FileUrlUploadResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Upload status message",
+            "example": "File uploaded successfully"
+          },
+          "files": {
+            "items": {
+              "$ref": "#/components/schemas/FileMetadataWithFormats"
+            },
+            "type": "array",
+            "title": "Files",
+            "description": "Metadata for every file retrieved from the URL. A single URL may resolve to multiple files (e.g. a playlist)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "files"
+        ],
+        "title": "FileUrlUploadResponse"
       },
       "HTTPValidationError": {
         "properties": {
