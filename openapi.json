@@ -1069,6 +1069,196 @@
         ]
       }
     },
+    "/api/settings/themes": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "List custom themes",
+        "description": "Return every custom theme registered in the database.\n\nAvailable to any authenticated user so the frontend can render the\ntheme picker. The built-in keys are returned alongside so the client\nknows which entries are statically defined in CSS.",
+        "operationId": "list_custom_themes_api_settings_themes_get",
+        "responses": {
+          "200": {
+            "description": "All custom themes plus the built-in theme keys",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomThemeListResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Create a custom theme (admin only)",
+        "description": "Admin-only endpoint to register a new theme available to every user.",
+        "operationId": "create_custom_theme_api_settings_themes_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomThemeCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created theme",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomThemeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid theme payload"
+          },
+          "403": {
+            "description": "Admin role required"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/settings/themes/{key}": {
+      "put": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Update a custom theme (admin only)",
+        "description": "Admin-only endpoint that replaces the display name and/or color tokens of an existing theme.",
+        "operationId": "update_custom_theme_api_settings_themes__key__put",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomThemeUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated theme",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomThemeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid theme payload"
+          },
+          "403": {
+            "description": "Admin role required"
+          },
+          "404": {
+            "description": "Theme not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Delete a custom theme (admin only)",
+        "description": "Admin-only endpoint. Any user currently selecting this theme is reset to `rubedo`.",
+        "operationId": "delete_custom_theme_api_settings_themes__key__delete",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Theme deleted"
+          },
+          "403": {
+            "description": "Admin role required"
+          },
+          "404": {
+            "description": "Theme not found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/default-formats": {
       "get": {
         "tags": [
@@ -2329,18 +2519,8 @@
         "properties": {
           "theme": {
             "type": "string",
-            "enum": [
-              "rubedo",
-              "citrinitas",
-              "viriditas",
-              "nigredo",
-              "albedo",
-              "aurora",
-              "caelum",
-              "argentum"
-            ],
             "title": "Theme",
-            "description": "Active UI theme",
+            "description": "Active UI theme key (built-in or custom)",
             "example": "rubedo"
           },
           "auto_download": {
@@ -2383,24 +2563,14 @@
           "theme": {
             "anyOf": [
               {
-                "type": "string",
-                "enum": [
-                  "rubedo",
-                  "citrinitas",
-                  "viriditas",
-                  "nigredo",
-                  "albedo",
-                  "aurora",
-                  "caelum",
-                  "argentum"
-                ]
+                "type": "string"
               },
               {
                 "type": "null"
               }
             ],
             "title": "Theme",
-            "description": "UI theme to apply",
+            "description": "Theme key to apply (built-in or custom)",
             "example": "rubedo"
           },
           "auto_download": {
@@ -3006,6 +3176,245 @@
           "converters"
         ],
         "title": "ConverterMetadataListResponse"
+      },
+      "CustomThemeColors": {
+        "properties": {
+          "primary": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Primary",
+            "description": "Primary brand color",
+            "example": "#ef4444"
+          },
+          "primary_light": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Primary Light",
+            "description": "Lighter primary variant",
+            "example": "#f87171"
+          },
+          "primary_dark": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Primary Dark",
+            "description": "Darker primary variant",
+            "example": "#b91c1c"
+          },
+          "accent": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Accent",
+            "description": "Accent color",
+            "example": "#f59e0b"
+          },
+          "success": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Success",
+            "description": "Success color",
+            "example": "#22c55e"
+          },
+          "success_light": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Success Light",
+            "description": "Lighter success variant",
+            "example": "#4ade80"
+          },
+          "success_dark": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Success Dark",
+            "description": "Darker success variant",
+            "example": "#15803d"
+          },
+          "surface_dark": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Surface Dark",
+            "description": "Dark surface background",
+            "example": "#0f172a"
+          },
+          "surface_light": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Surface Light",
+            "description": "Light surface background",
+            "example": "#1e293b"
+          },
+          "text": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Text",
+            "description": "Primary text color",
+            "example": "#f8fafc"
+          },
+          "text_muted": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$",
+            "title": "Text Muted",
+            "description": "Muted text color",
+            "example": "#cbd5e1"
+          }
+        },
+        "type": "object",
+        "required": [
+          "primary",
+          "primary_light",
+          "primary_dark",
+          "accent",
+          "success",
+          "success_light",
+          "success_dark",
+          "surface_dark",
+          "surface_light",
+          "text",
+          "text_muted"
+        ],
+        "title": "CustomThemeColors"
+      },
+      "CustomThemeCreateRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Name",
+            "description": "Display name",
+            "example": "My Theme"
+          },
+          "colors": {
+            "$ref": "#/components/schemas/CustomThemeColors",
+            "description": "Color token payload (every token is required)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "colors"
+        ],
+        "title": "CustomThemeCreateRequest"
+      },
+      "CustomThemeListResponse": {
+        "properties": {
+          "themes": {
+            "items": {
+              "$ref": "#/components/schemas/CustomThemeResponse"
+            },
+            "type": "array",
+            "title": "Themes",
+            "description": "All custom themes registered in the database"
+          },
+          "builtins": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Builtins",
+            "description": "Built-in theme keys defined by the application"
+          }
+        },
+        "type": "object",
+        "required": [
+          "themes",
+          "builtins"
+        ],
+        "title": "CustomThemeListResponse"
+      },
+      "CustomThemeResponse": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key",
+            "description": "Stable URL-safe identifier",
+            "example": "my-theme"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable display name",
+            "example": "My Theme"
+          },
+          "colors": {
+            "$ref": "#/components/schemas/CustomThemeColors",
+            "description": "Color token values (hex)"
+          },
+          "created_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created By",
+            "description": "UUID of the user that created the theme"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At",
+            "description": "ISO-8601 creation timestamp"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At",
+            "description": "ISO-8601 last-update timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "name",
+          "colors"
+        ],
+        "title": "CustomThemeResponse"
+      },
+      "CustomThemeUpdateRequest": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "New display name",
+            "example": "My Theme"
+          },
+          "colors": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CustomThemeColors"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Replacement color token payload"
+          }
+        },
+        "type": "object",
+        "title": "CustomThemeUpdateRequest"
       },
       "DefaultFormatListResponse": {
         "properties": {
