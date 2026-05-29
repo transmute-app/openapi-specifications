@@ -2546,6 +2546,12 @@
             "title": "Cleanup Ttl Minutes",
             "description": "Time-to-live in minutes for cleanup",
             "example": 60
+          },
+          "datetime_display_format": {
+            "type": "string",
+            "title": "Datetime Display Format",
+            "description": "Datetime display format pattern or 'locale'",
+            "example": "DD/MM/YYYY - HH:mm:ss"
           }
         },
         "type": "object",
@@ -2554,7 +2560,8 @@
           "auto_download",
           "keep_originals",
           "cleanup_enabled",
-          "cleanup_ttl_minutes"
+          "cleanup_ttl_minutes",
+          "datetime_display_format"
         ],
         "title": "AppSettingsResponse"
       },
@@ -2624,6 +2631,19 @@
             "title": "Cleanup Ttl Minutes",
             "description": "Time-to-live in minutes for cleanup",
             "example": 60
+          },
+          "datetime_display_format": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Datetime Display Format",
+            "description": "Datetime display format pattern or 'locale'",
+            "example": "DD/MM/YYYY - HH:mm:ss"
           }
         },
         "type": "object",
