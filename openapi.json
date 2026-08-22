@@ -279,6 +279,58 @@
           }
         }
       },
+      "head": {
+        "tags": [
+          "files"
+        ],
+        "summary": "Download a file (either converted or original) based on file ID",
+        "description": "Download a file",
+        "operationId": "get_file_api_files__file_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "file_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "File Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File content as binary",
+            "content": {
+              "application/octet-stream": {}
+            }
+          },
+          "404": {
+            "description": "File not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
       "delete": {
         "tags": [
           "files"
@@ -404,6 +456,244 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/FileDeleteResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/files/config/upload": {
+      "get": {
+        "tags": [
+          "files"
+        ],
+        "summary": "Get upload configuration",
+        "description": "Return upload-related configuration values.",
+        "operationId": "get_upload_config_api_files_config_upload_get",
+        "responses": {
+          "200": {
+            "description": "Upload configuration including maximum chunk size",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadConfigResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/files/upload/init": {
+      "post": {
+        "tags": [
+          "files"
+        ],
+        "summary": "Initialize a chunked upload session",
+        "description": "Create a new chunked upload session and return an upload ID.",
+        "operationId": "init_chunked_upload_api_files_upload_init_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChunkedUploadInitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Chunked upload session initialized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChunkedUploadInitResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/api/files/upload/chunk": {
+      "post": {
+        "tags": [
+          "files"
+        ],
+        "summary": "Upload a single chunk",
+        "description": "Receive and store a single chunk for a chunked upload session.",
+        "operationId": "upload_chunk_api_files_upload_chunk_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "upload_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Upload Id"
+            }
+          },
+          {
+            "name": "chunk_index",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Chunk Index"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chunk received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChunkedUploadChunkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid chunk index or body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Upload session not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/files/upload/complete": {
+      "post": {
+        "tags": [
+          "files"
+        ],
+        "summary": "Finalize a chunked upload",
+        "description": "Assemble all chunks into the final file, validate, and store metadata.",
+        "operationId": "complete_chunked_upload_api_files_upload_complete_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChunkedUploadCompleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "File assembled and uploaded successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing chunks or invalid session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Upload session not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "File has no supported conversions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Upload finalization failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -3442,6 +3732,85 @@
         ],
         "title": "Body_upload_file_api_files_post"
       },
+      "ChunkedUploadChunkResponse": {
+        "properties": {
+          "upload_id": {
+            "type": "string",
+            "title": "Upload Id",
+            "description": "Upload session UUID"
+          },
+          "chunk_index": {
+            "type": "integer",
+            "title": "Chunk Index",
+            "description": "Index of the chunk that was received"
+          }
+        },
+        "type": "object",
+        "required": [
+          "upload_id",
+          "chunk_index"
+        ],
+        "title": "ChunkedUploadChunkResponse"
+      },
+      "ChunkedUploadCompleteRequest": {
+        "properties": {
+          "upload_id": {
+            "type": "string",
+            "title": "Upload Id",
+            "description": "Upload session UUID to finalize",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "type": "object",
+        "required": [
+          "upload_id"
+        ],
+        "title": "ChunkedUploadCompleteRequest"
+      },
+      "ChunkedUploadInitRequest": {
+        "properties": {
+          "filename": {
+            "type": "string",
+            "title": "Filename",
+            "description": "Original filename including extension",
+            "example": "large_video.mp4"
+          },
+          "total_size": {
+            "type": "integer",
+            "title": "Total Size",
+            "description": "Total file size in bytes",
+            "example": 104857600
+          },
+          "total_chunks": {
+            "type": "integer",
+            "title": "Total Chunks",
+            "description": "Number of chunks the file is split into",
+            "example": 3
+          }
+        },
+        "type": "object",
+        "required": [
+          "filename",
+          "total_size",
+          "total_chunks"
+        ],
+        "title": "ChunkedUploadInitRequest"
+      },
+      "ChunkedUploadInitResponse": {
+        "properties": {
+          "upload_id": {
+            "type": "string",
+            "title": "Upload Id",
+            "description": "UUID identifying this chunked upload session",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "type": "object",
+        "required": [
+          "upload_id"
+        ],
+        "title": "ChunkedUploadInitResponse"
+      },
       "CompressionItem": {
         "properties": {
           "id": {
@@ -5036,6 +5405,20 @@
           "users"
         ],
         "title": "StatsResponse"
+      },
+      "UploadConfigResponse": {
+        "properties": {
+          "max_chunk_size": {
+            "type": "integer",
+            "title": "Max Chunk Size",
+            "description": "Maximum bytes per request; files larger than this should be uploaded in chunks. 0 = unlimited"
+          }
+        },
+        "type": "object",
+        "required": [
+          "max_chunk_size"
+        ],
+        "title": "UploadConfigResponse"
       },
       "UrlUploadRequest": {
         "properties": {
