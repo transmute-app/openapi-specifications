@@ -5752,6 +5752,19 @@
             "title": "Password",
             "description": "New plain-text password (min 8 characters)",
             "example": "new secure password"
+          },
+          "current_password": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Password",
+            "description": "Existing password, required when setting a new one",
+            "example": "current password"
           }
         },
         "type": "object",
